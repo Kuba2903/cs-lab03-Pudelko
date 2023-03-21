@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace PudelkoLibrary
 {
-    public class Pudelko : IFormattable, IEquatable<Pudelko>, IEnumerable
+    public sealed class Pudelko : IFormattable, IEquatable<Pudelko>, IEnumerable
     {
 
 
@@ -107,6 +107,8 @@ namespace PudelkoLibrary
             }
         }
 
+        
+
         public Pudelko(double a = 0.1, double b = 0.1, double c = 0.1, UnitOfMeasure unit = UnitOfMeasure.meter)
         {
 
@@ -193,6 +195,8 @@ namespace PudelkoLibrary
                     throw new ArgumentOutOfRangeException();
                 }
 
+               
+
                 centiA = a / 10;
                 centiB = b / 10;
                 centiC = c / 10;
@@ -267,15 +271,21 @@ namespace PudelkoLibrary
 
         public IEnumerator GetEnumerator()
         {
-            foreach (var x in dlugosci)
+
+            foreach (var x in Dlugosci)
             {
                 Console.WriteLine(x);
             }
-            return dlugosci.GetEnumerator();
+            return Dlugosci.GetEnumerator();
         }
 
         public static bool operator ==(Pudelko p1, Pudelko p2) => Equals(p1, p2);
         public static bool operator !=(Pudelko p1, Pudelko p2) => !(p1 == p2);
+
+        public static explicit operator double[](Pudelko p)
+        {
+            return p.Dlugosci;
+        }
 
         public static Pudelko operator +(Pudelko p1, Pudelko p2)
         {
@@ -285,6 +295,38 @@ namespace PudelkoLibrary
             p3.C = p1.C + p2.C;
             //p3.Objetosc = p1.Objetosc + p2.Objetosc;
             return p3;
+        }
+
+        public static implicit operator Pudelko((int a, int b, int c) v)
+        {
+            Pudelko pudelko = new Pudelko();
+
+            pudelko.miliA = v.a;
+            pudelko.miliB = v.b;
+            pudelko.miliC = v.c;
+            
+
+            pudelko.centiA = v.a / 10;
+            pudelko.centiB = v.b / 10;
+            pudelko.centiC = v.c / 10;
+
+            pudelko.A = v.a / 1000;
+            pudelko.B = v.b / 1000;
+            pudelko.C = v.c / 1000;
+            
+            
+
+            return pudelko;
+        }
+        
+        public double this[double i]
+        {
+            get
+            {
+                
+                return Dlugosci[(int)i];
+            }
+
         }
 
         public static string Parse(Pudelko p,UnitOfMeasure unit)
@@ -307,7 +349,7 @@ namespace PudelkoLibrary
         }
 
 
-        public double[] dlugosci = new double[3];
+        private double[] dlugosci = new double[3];
 
         public double[] Dlugosci
         {
@@ -320,7 +362,7 @@ namespace PudelkoLibrary
             }
         }
 
-        ValueTuple<int, int> Value = new ValueTuple<int, int>();
+        ValueTuple<int,int,int> Value = new ValueTuple<int, int,int>();
 
 
 
