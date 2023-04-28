@@ -7,19 +7,27 @@ class Program
     {
         Pudelko p1 = new Pudelko(2.1, 1, 3.05);
         Pudelko p2 = new Pudelko(50, 50, 50, unit: UnitOfMeasure.centimeter);
-        Pudelko p3 = new Pudelko(2100, 1000, 3050, unit: UnitOfMeasure.milimeter);
+        Pudelko p3 = new Pudelko(4,9,5);
+
+        
 
 
-        //Pudelko p3 = p1 + p2;
-
-        var p = new Pudelko(1, 2.1, 3.231);
-        /*var tab = new[] { p.A, p.B, p.C };
-        int i = 0;
-        foreach (double x in p)
+        Console.WriteLine();
+        List<Pudelko> list = new List<Pudelko>();
+        list.Add(p1);
+        list.Add(p2);
+        list.Add(p3);
+        foreach (var x in list)
         {
-            Console.WriteLine(x + tab[i]);
-            i++;
-        }*/
-        p.GetEnumerator();
+            Console.WriteLine(x.ToString(format:"cm",formatProvider:null));
+        }
+
+        //SORTOWANIE
+        var q = list.OrderBy(Pudelko => Pudelko.Objetosc).ThenBy(Pudelko => Pudelko.Pole).ThenBy(Pudelko => Pudelko.A + Pudelko.B + Pudelko.C);
+        Console.WriteLine();
+        foreach (var x in q)
+        {
+            Console.WriteLine(x.ToString(format: "cm", formatProvider: null));
+        }
     }
 }
